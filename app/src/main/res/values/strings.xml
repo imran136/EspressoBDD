@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Login Test</string>
+    <string name="login">Your credentials</string>
+    <string name="user_name">Email</string>
+    <string name="password">Password</string>
+    <string name="reset">Reset</string>
+    <string name="submit">Submit</string>
+    <string name="error_invalid_password">Password needs to be atleast 6 character!</string>
+    <string name="error_invalid_email">Please provide a valid email address</string>
+    <string name="empty_field_required">This is a required field</string>
+    <string name="successful_login">Successful Login</string>
+    <string name="action_sign_in">Sign in or register</string>
+</resources>

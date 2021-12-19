@@ -1,108 +1,72 @@
 package com.example.myfinalapp.test
 
 
-import android.app.Activity
-import android.content.Intent
-import android.service.autofill.Validators.not
 import androidx.test.rule.ActivityTestRule
 import com.example.myfinalapp.MainActivity
-import com.example.myfinalapp.R
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
-import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
-import android.view.View
-import android.widget.EditText
+import com.example.myfinalapp.test.LoginScreen
+import com.example.myfinalapp.test.ActivityFinisher
 import cucumber.api.java.After
 import cucumber.api.java.Before
+import cucumber.api.java.en.And
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
-import junit.framework.Assert
-import org.hamcrest.Description
-import org.hamcrest.Matcher
-import org.junit.Rule
-import org.junit.internal.matchers.TypeSafeMatcher
 
 
 class LoginActivitySteps {
-    @Rule
-    var activityTestRule: ActivityTestRule<MainActivity> =
-        ActivityTestRule(MainActivity::class.java)
-    private var activity: Activity? = null
-    @Before("@login-feature")
+
+    private val robot = LoginScreen()
+
+    private val activityRule = ActivityTestRule(MainActivity::class.java, false, false)
+
+    @Before
     fun setup() {
-        activityTestRule.launchActivity(Intent())
-        activity = activityTestRule.activity
+        //not needed now, but you may needed to setup mock responses before your screen starts
     }
 
-    @After("@login-feature")
+    @After
     fun tearDown() {
-        activityTestRule.finishActivity()
+        ActivityFinisher.finishOpenActivities() // Required for test scenarios with multiple activities or scenarios with more cases
     }
 
-    @Given("^I am on login screen")
-    fun i_am_on_login_screen() {
-        Assert.assertNotNull(activity)
+    @Given("^I start the application$")
+    fun i_start_app() {
+        robot.launchLoginScreen(activityRule)
     }
 
-    @When("^I input email (\\S+)$")
-    fun i_input_email(email: String?) {
-        onView(withId(R.id.user_name)).perform(typeText(email))
+    @When("^I click email field$")
+    fun i_click_email_field() {
+        robot.selectEmailField()
     }
 
-    @When("^I input password \"(.*?)\"$")
-    fun i_input_password(password: String?) {
-        onView(withId(R.id.password)).perform(typeText(password), closeSoftKeyboard())
+    @And("^I close the keyboard$")
+    fun i_close_the_keyboard() {
+        robot.closeKeyboard()
     }
 
-    @When("^I press submit button$")
-    fun i_press_submit_button() {
-        onView(withId(R.id.button_submit)).perform(click())
+    @And("^I enter valid email (\\S+)$")
+    fun i_enter_valid_email(email: String) {
+        robot.enterEmail(email)
     }
 
-    @Then("^I should see error on the (\\S+)$")
-    fun i_should_see_error_on_the_editTextView(viewName: String) {
-        val viewId: Int = if (viewName == "email") R.id.user_name else R.id.password
-        val messageId: Int =
-            if (viewName == "email") R.string.error_invalid_email else R.string.error_invalid_password
-        onView(withId(viewId)).check(matches(hasErrorText(activity!!.getString(messageId))))
+    @And("^I click password field$")
+    fun i_click_password_field() {
+        robot.selectPasswordField()
     }
 
-    @Then("^I should (true|false) auth error$")
-    fun i_should_see_auth_error(shouldSeeError: Boolean) {
-        if (shouldSeeError) {
-            onView(withId(R.id.successful_login_text_view)).check(matches(isDisplayed()))
-        } else {
-            onView(withId(R.id.successful_login_text_view)).check(matches(isDisplayed()))
-        }
+    @And("^I enter valid password (\\S+)$")
+    fun i_enter_valid_password(password: String) {
+        robot.enterPassword(password)
     }
 
-
-    /**
-     * Custom matcher to assert equal EditText.setError();
-     */
-    private class ErrorTextMatcher(private val mExpectedError: String) :
-        TypeSafeMatcher<View?>() {
-        override fun matchesSafely(view: View?): Boolean {
-            if (view !is EditText) {
-                return false
-            }
-            return mExpectedError == view.error.toString()
-        }
-
-        override fun describeTo(description: Description) {
-            description.appendText("with error: $mExpectedError")
-        }
+    @And("^I click sign in button$")
+    fun i_click_sign_in_button() {
+        robot.clickSignInButton()
     }
 
-    companion object {
-        private fun hasErrorText(expectedError: String): Matcher<in View> {
-            return ErrorTextMatcher(expectedError)
-        }
+    @Then("^I expect to see successful login message$")
+    fun i_expect_to_see_successful_login_message() {
+        robot.isSuccessfulLogin()
     }
+
 }

@@ -1,10 +1,10 @@
-package com.example.myfinalapp.test
+package com.example.myfinalapp.test.steps
 
 
 import androidx.test.rule.ActivityTestRule
 import com.example.myfinalapp.MainActivity
-import com.example.myfinalapp.test.LoginScreen
-import com.example.myfinalapp.test.ActivityFinisher
+import com.example.myfinalapp.test.screens.LoginScreen
+import com.example.myfinalapp.test.util.ActivityFinisher
 import cucumber.api.java.After
 import cucumber.api.java.Before
 import cucumber.api.java.en.And

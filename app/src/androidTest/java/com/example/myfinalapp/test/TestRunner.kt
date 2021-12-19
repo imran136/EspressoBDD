@@ -8,7 +8,7 @@ import cucumber.api.android.CucumberInstrumentationCore
 
 
 @CucumberOptions(features = ["features"], glue = ["com.example.myfinalapp.test"])
-class Instrumentation : MonitoringInstrumentation() {
+class TestRunner : MonitoringInstrumentation() {
     private val instrumentationCore = CucumberInstrumentationCore(this)
     override fun onCreate(arguments: Bundle) {
         super.onCreate(arguments)

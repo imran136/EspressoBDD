@@ -14,7 +14,7 @@ android {
         versionName "1.0"
 
         testApplicationId "com.example.myfinalapp.test"
-        testInstrumentationRunner "com.example.myfinalapp.test.Instrumentation"
+        testInstrumentationRunner "com.example.myfinalapp.test.TestRunner"
     }
 
     buildTypes {

@@ -1,6 +1,5 @@
-package com.example.myfinalapp.test
+package com.example.myfinalapp.test.screens
 
-import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -42,7 +41,7 @@ class LoginScreen {
     }
 
     fun clickSignInButton() {
-        onView(withText(InstrumentationRegistry.getTargetContext().getString(R.string.action_sign_in))).perform(click())
+        onView(withId(R.id.button_submit)).perform(click())
     }
 
     fun isSuccessfulLogin() {

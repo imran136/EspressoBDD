@@ -1,4 +1,4 @@
-package com.example.myfinalapp.test
+package com.example.myfinalapp.test.util
 
 import android.app.Activity
 import android.os.Handler
